@@ -1,0 +1,8 @@
+{
+  "short_name": "MERN App",
+  "name": "MERN App Boilerplate",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

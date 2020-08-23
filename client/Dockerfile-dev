@@ -1,0 +1,19 @@
+# Dockerfile for client
+
+# Install node image
+FROM node:10.16-alpine
+
+# Create client directory
+RUN mkdir -p /usr/app/client
+WORKDIR /usr/app/client
+
+# Install Dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy local files to client folder
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm","start"]

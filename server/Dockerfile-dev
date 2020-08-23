@@ -1,0 +1,19 @@
+# Dockerfile for server
+
+# Install node image
+FROM node:10.16-alpine
+
+# Create server directory
+RUN mkdir -p /usr/app/server
+WORKDIR /usr/app/server
+
+# Install Dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy local files to server folder
+COPY . .
+
+EXPOSE 5000
+
+CMD ["node","index.js"]

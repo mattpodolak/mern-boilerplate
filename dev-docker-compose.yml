@@ -1,0 +1,59 @@
+version: '3.7'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile-dev
+    image: todo-server
+    container_name: todo-server
+    command: npx nodemon index.js
+    volumes:
+      - ./server/:/usr/app/server
+      - /usr/app/server/node_modules
+    ports:
+      - "5000:5000"
+    env_file: .env
+    networks:
+      - app-network
+    restart: always
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    container_name: todo-mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile-dev
+    image: todo-client
+    stdin_open: true
+    tty: true
+    container_name: todo-client
+    command: npm start
+    volumes:
+      - ./client/:/usr/app/client
+      - /usr/app/client/node_modules
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    restart: always
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    data-volume:
+    node_modules:
+    web-root:
+      driver: local
